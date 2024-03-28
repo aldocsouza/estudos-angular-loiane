@@ -1,0 +1,14 @@
+<nav *ngIf="mostrarMenu">
+  <div class="nav-wrapper">
+    <a routerLink="home" class="brand-logo right">Router Ng2</a>
+    <ul id="nav-mobile" class="left hide-on-med-and-down">
+      <li routerLinkActive="active"><a class="active" routerLink="login">Login</a></li>
+      <li routerLinkActive="active"><a class="active" routerLink="cursos" [queryParams]="{pag:1}">Cursos</a></li>
+      <li routerLinkActive="active"><a class="active" routerLink="alunos">Alunos</a></li>
+      <!-- <li routerLinkActive="active"><a class="active" [routerLink]="['curso', id]">Curso por Id</a></li> -->
+    </ul>
+  </div>
+</nav>
+<div style="max-width: 1000px; margin: auto;">
+  <router-outlet></router-outlet>
+</div>

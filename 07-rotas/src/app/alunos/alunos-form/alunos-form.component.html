@@ -1,0 +1,19 @@
+<h3>Formulário: </h3>
+<form class="col s12">
+  <div class="row">
+    <div class="input-field col s6">
+      <input id="id" name="id" [(ngModel)]="aluno.id" type="number" (input)="inputMudou" class="validate">
+      <label for="id">Nº ID</label>
+    </div>
+    <div class="input-field col s6">
+      <input id="nome" type="text" name="nome" [(ngModel)]="aluno.nome" (input)="inputMudou" class="validate">
+      <label for="nome">Nome do Aluno:</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="email" type="email" name="nome" [(ngModel)]="aluno.email" (input)="inputMudou" class="validate">
+      <label for="email">Email</label>
+    </div>
+  </div>
+</form>
