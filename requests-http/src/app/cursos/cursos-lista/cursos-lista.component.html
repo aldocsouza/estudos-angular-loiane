@@ -1,0 +1,79 @@
+<div class="card">
+  <div class="card-header" style="display: flex; justify-content: space-between; padding: 10px 20px;">
+    <h3>Cursos</h3>
+    <div>
+      <button type="button" class="btn btn-primary" (click)="openModal(template)">Novo Curso</button>
+
+      {{ '' }}
+      <button type="button" class="btn btn-secondary" (click)="onRefresh()">Atualizar</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table" *ngIf="cursos$ | async as cursos; else loading">
+      <thead class="table-bordered">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" colspan="2">Curso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let curso of cursos">
+          <th scope="row">{{ curso.id }}</th>
+          <td> {{ curso.curso }} </td>
+          <td style="display: flex; gap: 1%; justify-content: right;">
+            <button type="button" class="btn btn-warning">Atualizar</button>
+            <button type="button" class="btn btn-danger" (click)="deleteCurso(curso.id)">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #loading>
+      <div *ngIf="error$ | async; else loadingNoError">
+        <span>
+          Erro no servidor. Contate o Administrador!
+        </span>
+      </div>
+      <ng-template #loadingNoError>
+        <span>
+          Carregando Cursos...
+        </span>
+      </ng-template>
+    </ng-template>
+  </div>
+
+  <ng-template #template>
+    <div class="modal-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <h4 class="modal-title pull-left">Novo Curso:</h4>
+        </div>
+        <div class="col-sm-12">
+          <div class="modal-body">
+            <div class="mb-3">
+              <form [formGroup]="formCurso">
+                <label for="curso" class="form-label">Nome do Curso</label>
+                <input type="text" class="form-control" name="curso" formControlName="curso" id="curso"
+                  placeholder="Ex: Java">
+              </form>
+              <div *ngIf="!cursoCadastrado; else sucess">
+                <p>Curso não cadastrado.</p>
+              </div>
+              <ng-template #sucess>
+                <div class="alert alert-success">
+                  <span>Curso cadastrado com sucesso!</span>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-success" (click)="novoCurso()">
+            Cadastrar
+          </button>
+          <button type="button" class="btn btn-danger" (click)="modalRef?.hide()">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>

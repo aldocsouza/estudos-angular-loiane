@@ -1,0 +1,25 @@
+http://localhost:3000/cursos
+
+### BUSCAR
+http://localhost:3000/cursos/1
+
+### CRIAR
+POST http://localhost:3000/cursos HTTP/1.1
+content-type: application/json
+
+  {
+    "curso": "React"
+  }
+
+### EDITAR
+PUT http://localhost:3000/cursos/c644 HTTP/1.1
+content-type: application/json
+
+  {
+    "curso": "Java 00"
+  }
+
+
+### DELETAR
+DELETE http://localhost:3000/cursos/daf5
+

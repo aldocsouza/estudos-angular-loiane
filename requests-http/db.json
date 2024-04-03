@@ -1,0 +1,16 @@
+{
+  "cursos": [
+    {
+      "id": "7b72",
+      "curso": "Angular"
+    },
+    {
+      "id": "f2c1",
+      "curso": "Java"
+    },
+    {
+      "id": "0e84",
+      "curso": "React"
+    }
+  ]
+}

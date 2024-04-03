@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-sm-12" style="margin-bottom: 20px;">
+    <h3>RxJS POC - Unsubscribe</h3>
+  </div>
+  <div class="col-sm-3" >
+      <input type="text"  #valor class="form-control" placeholder="Valor" (keyup.enter)="novoValor(valor.value)">
+  </div>
+  <div class="col-sm-4">
+    <div  style="display: flex; gap: 2%;">
+      <button type="button" class="btn btn-primary" (click)="novoValor(valor.value)">Emitir Valor</button>
+      <button type="button" class="btn btn-outline-danger" (click)="exibirOrDestroy()">Mostrar / Destruir</button>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="row" style="margin-top: 20px;" *ngIf="mostrarComponentes">
+    <app-poc class="col-sm-4"></app-poc>
+    <app-poc-async class="col-sm-4"></app-poc-async>
+    <app-take-until class="col-sm-4"></app-take-until>
+    <app-take class="col-sm-4"></app-take>
+    <app-unsub class="col-sm-4"></app-unsub>
+  </div>
+</div>
+
+
