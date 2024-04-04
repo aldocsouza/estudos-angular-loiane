@@ -21,7 +21,7 @@
           <th scope="row">{{ curso.id }}</th>
           <td> {{ curso.curso }} </td>
           <td style="display: flex; gap: 1%; justify-content: right;">
-            <button type="button" class="btn btn-warning">Atualizar</button>
+            <button type="button" class="btn btn-warning" (click)="atualizarCurso(curso.id, curso.curso)">Editar</button>
             <button type="button" class="btn btn-danger" (click)="deleteCurso(curso.id)">Remover</button>
           </td>
         </tr>
@@ -53,7 +53,7 @@
               <form [formGroup]="formCurso">
                 <label for="curso" class="form-label">Nome do Curso</label>
                 <input type="text" class="form-control" name="curso" formControlName="curso" id="curso"
-                  placeholder="Ex: Java">
+                  placeholder="Ex: Java" (keyup.enter)="novoCurso()">
               </form>
               <div *ngIf="!cursoCadastrado; else sucess">
                 <p>Curso não cadastrado.</p>

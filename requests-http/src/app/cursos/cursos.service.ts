@@ -33,4 +33,10 @@ export class CursosService {
     return this.http.delete(`${this.baseUrl}/${id}`)
   }
 
+  attCurso(id: string, curso: Curso){
+    const body = {id, curso}
+    return this.http.put(`${this.baseUrl}/${id}`, curso)
+  }
+
+
 }
