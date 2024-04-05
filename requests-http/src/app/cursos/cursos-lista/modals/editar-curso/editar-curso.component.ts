@@ -4,11 +4,13 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { CursosService } from '../../../cursos.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedUiModule } from '../../../../shared/shared-ui/shared-ui.module';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertModalService } from '../../../../shared/alert-modal.service';
 
 @Component({
   selector: 'app-editar-curso',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, ReactiveFormsModule],
+  imports: [NgFor, NgIf, NgClass, ReactiveFormsModule, AlertComponent],
   templateUrl: './editar-curso.component.html',
   styleUrl: './editar-curso.component.scss'
 })
@@ -16,7 +18,7 @@ export class EditarCursoComponent implements OnInit {
 
   title?: string;
   closeBtnName?: string;
-  id?: string;
+  id!: string;
   list: string[] = [];
   nomeCurso!: string;
   form!: FormGroup;
@@ -27,7 +29,8 @@ export class EditarCursoComponent implements OnInit {
   constructor(
     public bsModalRef: BsModalRef,
     private service: CursosService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private alert: AlertModalService
   ) {}
 
   ngOnInit() {
@@ -43,16 +46,17 @@ export class EditarCursoComponent implements OnInit {
   }
 
   atualizarCurso(){
-    const id = this.id ? this.id : '';
+    const id = this.id;
     if(this.form.valid){
     this.service.attCurso(id, this.form.value)
       .subscribe(c => {
         this.submitted = true;
         this.cursoCadastrado = true;
         this.bsModalRef.hide()
+        this.alert.showAlert('Curso editado com sucesso!', 'success')
       })
     }else{
-      this.submitted = false;
+      this.submitted = false
     }
   }
 

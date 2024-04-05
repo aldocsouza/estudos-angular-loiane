@@ -67,7 +67,8 @@ export class CursosListaComponent implements OnInit {
   constructor(
     private cursosService: CursosService,
     private modalService: BsModalService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private alert: AlertModalService
   ) {}
 
   ngOnInit(): void {
@@ -110,6 +111,7 @@ export class CursosListaComponent implements OnInit {
           this.formCurso.reset();
           this.modalRef?.hide();
           this.onRefresh();
+          this.alert.showAlert('Curso salvo com sucesso!', 'success')
         });
     }else{
       this.submitted = false;
@@ -123,7 +125,10 @@ export class CursosListaComponent implements OnInit {
     this.cursosService
       .deleteCurso(id)
       .pipe(take(1))
-      .subscribe((v) => this.onRefresh());
+      .subscribe((v) => {
+        this.alert.showAlert('Curso removido com sucesso!', 'danger')
+        this.onRefresh()
+      });
   }
   modalRef?: BsModalRef;
 

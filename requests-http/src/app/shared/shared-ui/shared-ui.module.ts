@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AlertModalService } from '../alert-modal.service';
 
 
 
@@ -12,6 +13,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   ],
   exports: [
     ModalModule
+  ],
+  providers: [
+    AlertModalService
   ]
 })
 export class SharedUiModule { }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Curso } from './curso';
-import { delay, tap } from 'rxjs';
+import { delay, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,17 +25,24 @@ export class CursosService {
 
   postCurso(curso: string){
     return this.http.post(this.baseUrl, curso).pipe(
-      tap(c => console.log(c))
+      tap(c => console.log(c)),
+      take(1)
     )
   }
 
   deleteCurso(id: string){
     return this.http.delete(`${this.baseUrl}/${id}`)
+    .pipe(
+      take(1)
+    )
   }
 
   attCurso(id: string, curso: Curso){
     const body = {id, curso}
     return this.http.put(`${this.baseUrl}/${id}`, curso)
+    .pipe(
+      take(1)
+    )
   }
 
 
