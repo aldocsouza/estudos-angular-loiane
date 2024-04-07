@@ -22,7 +22,8 @@
           <td> {{ curso.curso }} </td>
           <td style="display: flex; gap: 1%; justify-content: right;">
             <button type="button" class="btn btn-warning" (click)="atualizarCurso(curso.id, curso.curso)">Editar</button>
-            <button type="button" class="btn btn-danger" (click)="deleteCurso(curso.id)">Remover</button>
+            <!-- <button type="button" class="btn btn-danger" (click)="onDelete(curso)">Remover</button> -->
+            <button type="button" class="btn btn-danger" (click)="deleteCurso(curso)">Remover</button>
           </td>
         </tr>
       </tbody>
@@ -53,16 +54,13 @@
               <form [formGroup]="formCurso">
                 <label for="curso" class="form-label">Nome do Curso</label>
                 <input type="text" class="form-control" name="curso" formControlName="curso" id="curso"
-                  placeholder="Ex: Java" (keyup.enter)="novoCurso()">
+                  placeholder="Ex: Tecnologia" (keyup.enter)="novoCurso()">
               </form>
-              <div *ngIf="!cursoCadastrado; else sucess">
-                <p>Curso não cadastrado.</p>
-              </div>
-              <ng-template #sucess>
-                <div class="alert alert-success">
-                  <span>Curso cadastrado com sucesso!</span>
+              <div *ngIf="this.formCurso.touched && this.formCurso.invalid">
+                <div class="alert alert-warning">
+                  <span>Curso não preenchido!</span>
                 </div>
-              </ng-template>
+              </div>
             </div>
           </div>
         </div>
@@ -77,3 +75,12 @@
       </div>
     </div>
   </ng-template>
+  <br><br>
+  <ng-template #deleteModal>
+    <div class="modal-body text-center">
+      <p>Tem certeza que deseja remover o curso?</p>
+      <button type="button" class="btn btn-default" (click)="onConfirm()">Sim</button>
+      <button type="button" class="btn btn-primary" (click)="onDecline()">Não</button>
+    </div>
+  </ng-template>
+

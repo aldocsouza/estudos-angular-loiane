@@ -1,0 +1,7 @@
+<div class="mb-3">
+  <label for="formFile" class="form-label" id="formLabel">Upload Files</label>
+  <input class="form-control" type="file" id="formFile" multiple (change)="onChange($event)">
+</div>
+<div>
+  <button type="button" class="btn btn-primary" (click)="onUpload()">Upload</button>
+</div>

@@ -7,6 +7,8 @@
 /bazel-out
 
 # Node
+/server/node_modules
+/server/uploads
 /node_modules
 npm-debug.log
 yarn-error.log
