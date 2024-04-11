@@ -2,6 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EventEmitter } from 'stream';
 import { UploadFilesService } from './upload-files.service';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { filterResponse, uploadProgress } from '../shared/rxjs-operators';
+
+declare global {
+  interface Navigator {
+      msSaveBlob?: (blob: any, defaultName?: string) => boolean
+  }
+}
 
 @Component({
   selector: 'app-upload-files',
@@ -15,6 +23,7 @@ import { UploadFilesService } from './upload-files.service';
 export class UploadFilesComponent implements OnInit {
 
   files!: Set<File>;
+  progress = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -39,15 +48,47 @@ export class UploadFilesComponent implements OnInit {
         this.files.add(selectedFiles[i]);
       }
       document.getElementById('formFile')!.innerHTML = filesNames.join(', ');
+      this.progress = 0;
     }
   }
 
   onUpload(){
     if(this.files && this.files.size > 0){
       this.service.uploadFile(this.files, 'http://localhost:8080/upload')
-      .subscribe(response => console.log('Upload concluido!'))
+      .pipe(
+        uploadProgress(progress => {
+          console.log(progress);
+          this.progress = progress;
+        }),
+        filterResponse()
+      ).subscribe(response => console.log('Upload concluido!'))
+      /* .subscribe((event: HttpEvent<Object>) => {
+        //HttpEventType
+        console.log(event)
+        if(event.type === HttpEventType.Response){
+          console.log('Upload concluido!')
+        }else if(event.type === HttpEventType.UploadProgress) {
+          const percentDone = Math.round((event.loaded * 100) / event.total!)
+          console.log(percentDone)
+          this.progress = percentDone;
+        }
+      }) */
     }
   }
 
+
+  onDownloadExcel(){
+    this.service.downloadExcel('http://localhost:8080/downloadExcel')
+    .subscribe((res: any) => {
+      this.service.handleFile(res, 'report.xls')
+    });
+  }
+
+  onDownloadPDF(){
+    this.service.downloadPDF('http://localhost:8080/downloadPDF')
+    .subscribe((res: any) => {
+      this.service.handleFile(res, 'repot.pdf')
+    });
+  }
 
 }
