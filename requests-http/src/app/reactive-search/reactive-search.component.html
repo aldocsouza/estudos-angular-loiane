@@ -1,0 +1,30 @@
+<div class="container search-table">
+  <div class="search-box">
+      <div class="row">
+          <div class="col-md-12">
+              <h3>Pesquisa de Bibliotecas Javascript</h3>
+              <input type="text" [formControl]="queryField" id="myInput" class="form-control" placeholder="Pesquisar">
+          </div>
+      </div>
+  </div>
+  <div class="search-list">
+      <h3>{{ total }} Dados Encontrados</h3>
+      <table class="table" id="myTable">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Versão</th>
+            <th>Site</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of result$ | async">
+            <td> {{ result.name }} </td>
+            <td> {{ result.version }} </td>
+            <td> {{ result.homepage }} </td>
+          </tr>
+        </tbody>
+      </table>
+
+  </div>
+</div>

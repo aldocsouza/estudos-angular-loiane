@@ -4,7 +4,7 @@ import { CursosListaComponent } from './cursos/cursos-lista/cursos-lista.compone
 
 export const routes: Routes = [
   {
-    path: '', pathMatch: 'full', redirectTo: 'upload-files'
+    path: '', pathMatch: 'full', redirectTo: 'reactive-search'
   },
   {
     path: 'cursos',
@@ -13,6 +13,10 @@ export const routes: Routes = [
   {
     path: 'upload-files',
     loadComponent: () => import('./upload-files/upload-files.component').then(c => c.UploadFilesComponent)
+  },
+  {
+    path: 'reactive-search',
+    loadComponent: () => import('./reactive-search/reactive-search.component').then(c => c.ReactiveSearchComponent)
   },
   {
     path: 'rxj-poc',
