@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  requestshttp:
+    image: curso-angular
+    build: .
+    ports:
+      - 8081:80
