@@ -1,15 +1,21 @@
 package curso.aula.loiane.crudspring.Controllers;
 
-import curso.aula.loiane.crudspring.Models.Cursos;
+import curso.aula.loiane.crudspring.Models.CursoDTO;
+import curso.aula.loiane.crudspring.Models.mappers.CursosMapper;
 import curso.aula.loiane.crudspring.Repository.CursosRepository;
+import curso.aula.loiane.crudspring.Services.CursosService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+@Validated
 @RestController
 @RequestMapping("/api/cursos")
 @AllArgsConstructor
@@ -17,22 +23,17 @@ import java.util.Optional;
 public class CursosController {
 
     private CursosRepository cursosRepository;
+    private CursosService cursosService;
+    private CursosMapper cursosMapper;
 
     @GetMapping
-    public List<Cursos> getCursos() {
-        return cursosRepository.findAll();
+    public List<CursoDTO> getCursos() {
+        return cursosService.getCursos();
     }
 
-    /*@GetMapping("{id}")
-    public ResponseEntity<Optional<Cursos>> getCursoById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(cursosRepository.findById(id));
-    }*/
-
     @GetMapping("/{id}")
-    public ResponseEntity<Cursos> getCursoById(@PathVariable Long id){
-        return cursosRepository.findById(id)
-                .map(registro -> ResponseEntity.ok().body(registro))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CursoDTO> getCursoById(@PathVariable @NotNull @Positive Long id){
+        return ResponseEntity.ok().body(cursosService.getCursoById(id));
     }
 
     ///COM DTO
@@ -48,53 +49,35 @@ public class CursosController {
 
     //COM ENTIDADE
     @PostMapping
-    public ResponseEntity<Cursos> criarCurso(@RequestBody Cursos curso){
-        return ResponseEntity.status(HttpStatus.CREATED).body(cursosRepository.save(curso));
+    @ResponseStatus(HttpStatus.CREATED)
+    public CursoDTO criarCurso(@RequestBody @Valid CursoDTO curso){
+        return cursosService.criarCurso(curso);
     }
-
 
     @PutMapping("/update")
-    public ResponseEntity<Cursos> updateCurso(@RequestBody Cursos curso){
-        Optional<Cursos> updateCurso = cursosRepository.findById(curso.getId());
-
-        if(updateCurso.isPresent()){
-            var cursoUpdate = updateCurso.get();
-            cursoUpdate.setName(curso.getName());
-            cursoUpdate.setCategory(curso.getCategory());
-
-            return ResponseEntity.status(HttpStatus.OK).body(cursosRepository.save(cursoUpdate));
-        }
-        return ResponseEntity.ok().build();
-    }
-
-    //LOIANE
-    @PutMapping("/{id}")
-    public ResponseEntity<Cursos> updateCurso2(@PathVariable Long id, @RequestBody Cursos curso){
-        return cursosRepository.findById(id)
-                    .map(recordFound -> {
-                        recordFound.setName(curso.getName());
-                        recordFound.setCategory(curso.getCategory());
-                        var update = cursosRepository.save(recordFound);
-                        return ResponseEntity.ok().body(update);
-                    })
-                    .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CursoDTO> updateCurso(@RequestBody @Valid CursoDTO curso){
+        return ResponseEntity.status(HttpStatus.OK).body(cursosService.updateCurso(curso));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Cursos> removeCurso(@PathVariable Long id){
-        cursosRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void removeCurso(@PathVariable @NotNull @Positive Long id){
+        cursosService.removeCurso(id);
     }
 
     ///LOIANE
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id){
         return cursosRepository.findById(id)
                 .map(recordFound -> {
                     cursosRepository.deleteById(id);
                     return ResponseEntity.noContent().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/example")
+    public String getExample(){
+        return "Hello World!";
     }
 
 }
