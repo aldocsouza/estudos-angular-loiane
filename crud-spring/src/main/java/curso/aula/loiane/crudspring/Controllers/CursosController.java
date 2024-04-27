@@ -1,6 +1,6 @@
 package curso.aula.loiane.crudspring.Controllers;
 
-import curso.aula.loiane.crudspring.Models.CursoDTO;
+import curso.aula.loiane.crudspring.Models.DTOs.CursoDTO;
 import curso.aula.loiane.crudspring.Models.mappers.CursosMapper;
 import curso.aula.loiane.crudspring.Repository.CursosRepository;
 import curso.aula.loiane.crudspring.Services.CursosService;
@@ -74,10 +74,4 @@ public class CursosController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
-
-    @GetMapping("/example")
-    public String getExample(){
-        return "Hello World!";
-    }
-
 }

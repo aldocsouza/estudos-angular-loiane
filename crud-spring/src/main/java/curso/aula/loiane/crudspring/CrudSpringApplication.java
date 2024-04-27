@@ -1,6 +1,8 @@
 package curso.aula.loiane.crudspring;
 
+import curso.aula.loiane.crudspring.Enums.Category;
 import curso.aula.loiane.crudspring.Models.Cursos;
+import curso.aula.loiane.crudspring.Models.Lesson;
 import curso.aula.loiane.crudspring.Repository.CursosRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +23,13 @@ public class CrudSpringApplication {
 
 			Cursos c = new Cursos();
 			c.setName("Angular com Spring");
-			c.setCategory("Front-end");
+			c.setCategory(Category.FRONTEND);
+
+			Lesson l = new Lesson();
+			l.setName("Introdução");
+			l.setYoutubeUrl("/_TfSVlTcY");
+			l.setCursos(c);
+			c.getLessons().add(l);
 
 			cursosRepository.save(c);
 		};
