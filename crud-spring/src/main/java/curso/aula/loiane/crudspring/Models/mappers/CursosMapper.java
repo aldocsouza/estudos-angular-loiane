@@ -4,7 +4,11 @@ import curso.aula.loiane.crudspring.Enums.Category;
 import curso.aula.loiane.crudspring.Enums.Status;
 import curso.aula.loiane.crudspring.Models.DTOs.CursoDTO;
 import curso.aula.loiane.crudspring.Models.Cursos;
+import curso.aula.loiane.crudspring.Models.DTOs.LessonDTO;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CursosMapper {
@@ -13,7 +17,13 @@ public class CursosMapper {
         if(curso == null){
             return null;
         }
-        return new CursoDTO(curso.getId(), curso.getName(), curso.getCategory().getValue());
+
+        List<LessonDTO> lessons = curso.getLessons()
+                .stream()
+                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
+                .collect(Collectors.toList());
+
+        return new CursoDTO(curso.getId(), curso.getName(), curso.getCategory().getValue(), lessons);
     }
 
     public Cursos toEntity(CursoDTO cursoDTO){

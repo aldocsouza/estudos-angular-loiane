@@ -1,6 +1,5 @@
 package curso.aula.loiane.crudspring.Enums.Converters;
 
-import curso.aula.loiane.crudspring.Enums.Category;
 import curso.aula.loiane.crudspring.Enums.Status;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

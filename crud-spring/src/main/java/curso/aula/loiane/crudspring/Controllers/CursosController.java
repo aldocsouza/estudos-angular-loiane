@@ -1,7 +1,6 @@
 package curso.aula.loiane.crudspring.Controllers;
 
 import curso.aula.loiane.crudspring.Models.DTOs.CursoDTO;
-import curso.aula.loiane.crudspring.Models.mappers.CursosMapper;
 import curso.aula.loiane.crudspring.Repository.CursosRepository;
 import curso.aula.loiane.crudspring.Services.CursosService;
 import jakarta.validation.Valid;
@@ -24,7 +23,6 @@ public class CursosController {
 
     private CursosRepository cursosRepository;
     private CursosService cursosService;
-    private CursosMapper cursosMapper;
 
     @GetMapping
     public List<CursoDTO> getCursos() {
