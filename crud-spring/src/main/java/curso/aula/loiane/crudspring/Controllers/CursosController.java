@@ -6,7 +6,6 @@ import curso.aula.loiane.crudspring.Services.CursosService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,9 +16,13 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/api/cursos")
-@AllArgsConstructor
 @CrossOrigin("*")
 public class CursosController {
+
+    public CursosController(CursosRepository cursosRepository, CursosService cursosService) {
+        this.cursosRepository = cursosRepository;
+        this.cursosService = cursosService;
+    }
 
     private CursosRepository cursosRepository;
     private CursosService cursosService;

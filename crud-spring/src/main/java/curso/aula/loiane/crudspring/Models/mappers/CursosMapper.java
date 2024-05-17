@@ -5,6 +5,7 @@ import curso.aula.loiane.crudspring.Enums.Status;
 import curso.aula.loiane.crudspring.Models.DTOs.CursoDTO;
 import curso.aula.loiane.crudspring.Models.Cursos;
 import curso.aula.loiane.crudspring.Models.DTOs.LessonDTO;
+import curso.aula.loiane.crudspring.Models.Lesson;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,6 +39,16 @@ public class CursosMapper {
         curso.setName(cursoDTO.name());
         curso.setCategory(converterCategoryValue(cursoDTO.category()));
         curso.setStatus(Status.ATIVO);
+        List<Lesson> lessons = cursoDTO.lessons().stream()
+                .map(lessonDTO -> {
+                    var lesson = new Lesson();
+                    lesson.setId(lessonDTO.id());
+                    lesson.setName(lessonDTO.name());
+                    lesson.setYoutubeUrl(lessonDTO.youtubeUrl());
+                    lesson.setCursos(curso);
+                    return lesson;
+                }).collect(Collectors.toList());
+        curso.setLessons(lessons);
 
         return curso;
     }

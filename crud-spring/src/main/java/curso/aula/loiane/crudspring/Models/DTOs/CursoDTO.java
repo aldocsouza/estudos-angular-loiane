@@ -1,9 +1,12 @@
 package curso.aula.loiane.crudspring.Models.DTOs;
 
-import curso.aula.loiane.crudspring.Enums.Converters.CategoryConverter;
-import curso.aula.loiane.crudspring.Models.Lesson;
-import jakarta.persistence.Convert;
+import curso.aula.loiane.crudspring.Enums.Category;
+import curso.aula.loiane.crudspring.Enums.Status;
+import curso.aula.loiane.crudspring.Enums.Validation.ValueOfEnum;
+import jakarta.persistence.Column;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,8 +17,10 @@ public record CursoDTO(
         @NotNull @NotBlank @Length(min = 1, max = 100)
         String name,
 
-        @NotNull @Convert(converter = CategoryConverter.class)
+        @NotNull @ValueOfEnum(enumClass = Category.class)
         String category,
+
+        @NotNull @NotEmpty @Valid
         List<LessonDTO> lessons
 ) {
 }

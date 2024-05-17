@@ -1,6 +1,7 @@
 package curso.aula.loiane.crudspring.Services;
 
 import curso.aula.loiane.crudspring.Enums.Status;
+import curso.aula.loiane.crudspring.Models.Cursos;
 import curso.aula.loiane.crudspring.Models.DTOs.CursoDTO;
 import curso.aula.loiane.crudspring.Models.mappers.CursosMapper;
 import curso.aula.loiane.crudspring.Repository.CursosRepository;
@@ -8,7 +9,6 @@ import curso.aula.loiane.crudspring.exception.RecordNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -19,12 +19,16 @@ import java.util.stream.Collectors;
 
 @Validated
 @Service
-@AllArgsConstructor
 public class CursosService {
 
     @Autowired
     private CursosRepository cursosRepository;
     private CursosMapper cursosMapper;
+
+    CursosService(CursosRepository cursosRepository, CursosMapper cursosMapper){
+        this.cursosRepository = cursosRepository;
+        this.cursosMapper = cursosMapper;
+    }
 
     public List<CursoDTO> getCursos() {
         return cursosRepository.findAllByStatus(Status.ATIVO)
@@ -46,8 +50,12 @@ public class CursosService {
     public CursoDTO updateCurso(@RequestBody @Valid CursoDTO curso){
         return cursosRepository.findById(curso.id())
                 .map(recordFound -> {
+                    Cursos cursos = cursosMapper.toEntity(curso);
                     recordFound.setName(curso.name());
                     recordFound.setCategory(cursosMapper.converterCategoryValue(curso.category()));
+                    //recordFound.setLessons(cursos.getLessons());
+                    recordFound.getLessons().clear();
+                    cursos.getLessons().forEach(lesson -> recordFound.getLessons().add(lesson));
                     return cursosMapper.cursoDto(cursosRepository.save(recordFound));
                 }).orElseThrow(() -> new RecordNotFoundException(curso.id()));
     }
