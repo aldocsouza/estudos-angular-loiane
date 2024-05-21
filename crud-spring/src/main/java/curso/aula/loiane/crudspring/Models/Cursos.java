@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "cursos")
 @SQLDelete(sql = "UPDATE Cursos SET status = 'Inativo' WHERE id = ? ")
 @Where(clause = "status = 'Ativo'")
 public class Cursos {

@@ -1,11 +1,16 @@
 package curso.aula.loiane.crudspring.Controllers;
 
+import curso.aula.loiane.crudspring.Models.Cursos;
 import curso.aula.loiane.crudspring.Models.DTOs.CursoDTO;
+import curso.aula.loiane.crudspring.Models.DTOs.PageCursosDTO;
 import curso.aula.loiane.crudspring.Repository.CursosRepository;
 import curso.aula.loiane.crudspring.Services.CursosService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import org.hibernate.query.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,10 +32,18 @@ public class CursosController {
     private CursosRepository cursosRepository;
     private CursosService cursosService;
 
+    /*
     @GetMapping
     public List<CursoDTO> getCursos() {
         return cursosService.getCursos();
     }
+    */
+
+    @GetMapping
+    public PageCursosDTO getPageCursos(@RequestParam(defaultValue = "0") @PositiveOrZero int page, @RequestParam(defaultValue = "10") @Positive @Max(50) int pageSize){
+        return cursosService.getPaginationCursos(page, pageSize);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CursoDTO> getCursoById(@PathVariable @NotNull @Positive Long id){
